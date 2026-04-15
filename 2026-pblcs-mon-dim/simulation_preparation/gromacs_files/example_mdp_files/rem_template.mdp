@@ -1,0 +1,53 @@
+; MDP file for the Sageforce field
+
+
+integrator             = md
+dt                     = 0.002 ; time step
+nsteps                 = 100000000  ; 200 ns simulation
+nstcomm                = 1000 
+
+;    OUTPUT CONTROL
+
+nstxout                = 0 ; only last ; Steps between writing coords to uncompressed output trajectory
+nstvout                = 0 ; only last ; Steps between writing velocities to uncompressed output trajectory
+nstfout                = 0 ; never ; Steps between writing forces to uncompressed output trajectory
+nstlog                 = 20000 ; Steps between writing energies to log file
+nstenergy              = 20000 ; Steps between writing energies to energy file
+nstxout-compressed     = 20000 ; Steps between writing coords to compressed output trajectory
+compressed-x-precision = 1000 ; Trajectory compression is lossy; this is the precision of that compression
+
+;    CUTOFF SCHEME - verlet
+; Verlet is faster, more parallelisable, more accurate, supports GPUs
+; Only use group for the legacy interactions it supports
+cutoff-scheme          = Verlet ; Neighbor searching with a Verlet buffer
+
+;    COULOMB INTERACTIONS
+coulombtype            = PME ; Use Particle Mesh Ewald to compute long-range electrostatic interactions
+rcoulomb               = 0.9 ; Cutoff for short-range electrostatics; tuned for performance at runtime by GROMACS
+
+;    LJ INTERACTIONS
+vdwtype                = Cut-off ; Use a cut-off for vdW interactions
+vdw-modifier           = force-switch ; Smoothly switch off the LJ interactions
+rvdw                   = 0.9 ; Distance cutoff for the vdW interactions
+rvdw-switch            = 0.8 ; where to start switching off the LJ force
+DispCorr               = EnerPres ; Correct the energy and pressure for long range dispersion errors
+
+; Pressure control
+Pcoupl                    = c-rescale                   ; Pressure coupling on (Berendsen because of the fluctuations)
+pcoupltype                = isotropic                   ; Allow different scaling along x, y, z
+tau_p                     = 5.0                         ; Pressure coupling time constant (ps)
+ref_p                     = 1.0                         ; Reference pressure (1 bar) for x, y, z, xy, xz, yz
+compressibility           = 1e-4                        ; Compressibility (bar^-1) along x, y, z
+
+; Temperature control
+Tcoupl                   = v-rescale
+tc-grps                  = SYSTEM
+ref-t                    = SET_TEMP                         ; Reference temperature (K)
+tau_t                    = 1.0                          ; Coupling time constant (ps)
+
+
+;constraints
+constraints             = h-bonds ; All hydrogen bonds are constrained
+constraint-algorithm    = LINCS ; Use the LINCS algorithm for constraint solving
+
+
