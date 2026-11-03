@@ -392,9 +392,9 @@ def _estimate_tni(temps: np.ndarray, means: np.ndarray, system: str) -> tuple[fl
     if temps.size < 6:
         return None
     if system == "P_monomer":
-        fit_lo, fit_hi = 350, 415
+        fit_lo, fit_hi = 340, 415
     elif system == "M_monomer":
-        fit_lo, fit_hi = 300, 350
+        fit_lo, fit_hi = 300, 340
     else:
         fit_lo, fit_hi = temps.min(), temps.max()
     fit_mask = (temps >= fit_lo) & (temps <= fit_hi)

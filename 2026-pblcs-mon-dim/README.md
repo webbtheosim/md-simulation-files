@@ -6,7 +6,7 @@ Simulation inputs, restart files, force field optimization data, and analysis sc
 
 - **`simulation_preparation/`** -- `.mdp` templates, Slurm helpers, parameterization scripts, and OpenFF force field files used to initialize GROMACS simulations. If you want to use the optimized forcefield parameters, check out the .offxml files.
 - **`simulations_restart_files/`** -- Restart snapshots (`trem_last_run.{tpr,gro}`) and topologies for every temperature-replica-exchange simulation (monomer and dimer phase behavior).
-- **`ff_optimization/`** -- OpenFF BespokeFit torsion-drive scan results (B3LYP-D3BJ/DZVP), input SDF files, and QM/MM comparison plots for reproducing the DFT calculations.
+- **`ff_optimization/`** -- OpenFF BespokeFit torsion-drive scan results (B3LYP-D3BJ/DZVP), input SDF files, QM/MM comparison plots for reproducing the DFT calculations, and full scan geometries/energies in `fragment_scans_multixyzs/` (scan angles: -165 to 180 degrees in 15 degree steps). Credit to Benedict Irwin for the request.
 - **`sample_analysis/`** -- Analysis scripts used to generate the figures in the paper and supporting information (see below).
 
 ## Analysis Scripts (`sample_analysis/`)
@@ -73,3 +73,20 @@ A Slurm script (`remake_figures.slurm`) is also provided to run all 15 scripts s
 ### Shared styling (`figure_params/`)
 
 `figure_params.py` defines colors, fonts, markers, and axis-formatting helpers shared across all scripts.
+
+## Citation
+
+If you use this data or these scripts, please cite:
+
+```bibtex
+@article{votava2026molecular,
+  title={Molecular dynamics investigation of the impact of methylation on the nematic phase of phenyl benzoate mesogens and dimers},
+  author={Votava, Jacob S and Davidson, Emily C and Webb, Michael A},
+  journal={Soft matter},
+  volume={22},
+  number={18},
+  pages={3370--3379},
+  year={2026},
+  publisher={The Royal Society of Chemistry}
+}
+```
